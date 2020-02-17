@@ -1,0 +1,44 @@
+{
+  "name": "kdmhsassertiveapi",
+  "version": "1.0.0",
+  "description": "KDMHS Assertive API",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KDMHSAssertive/smartfarm-api.git"
+  },
+  "author": "©2019 KDMHS Assertive",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KDMHSAssertive/smartfarm-api/issues"
+  },
+  "homepage": "https://github.com/KDMHSAssertive/smartfarm-api#readme",
+  "dependencies": {
+    "@poziworld/oauth2orize": "^1.11.1",
+    "@types/node": "^13.7.1",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^3.0.1",
+    "errorhandler": "^1.5.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "fs": "0.0.1-security",
+    "mysql": "^2.18.1",
+    "oauth2orize": "^1.8.0",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "passport-oauth2-client-password": "^0.1.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
