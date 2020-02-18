@@ -18,6 +18,18 @@ app.get('/crypto', (req, res) => {
     })
 })
 
+app.get('/clientId', (req, res) => {
+    const salt = req.ip=="localhost" || req.ip == undefined ? ["127","0","0","1"] : req.ip.split(".")
+    // console.log(salt);
+    // console.log("" + new Date().getHours() + new Date().getMilliseconds() + new Date().getUTCFullYear() + "0"*(salt[0].length-3) + salt[0] + "0"*(salt[1].length-3) + salt[1] + "0"*(salt[2].length-3) + salt[2] + "0"*(salt[3].length-3) + salt[3]);
+    // console.log("0"*(salt[0].length-3 > 0 ? salt[0].length-3 : -1 * salt[0].length-3) + salt[0] + "0"*(salt[1].length-3 > 0 ? salt[1].length-3 : -1 * salt[1].length-3) + salt[1] + "0"*(salt[2].length-3 > 0 ? salt[2].length-3 : -1 * salt[2].length-3) + salt[2] + "0"*(salt[3].length-3 > 0 ? salt[3].length-3 : -1 * salt[3].length-3) + salt[3]);
+    // console.log(salt[0].length-3 > 0 ? salt[0].length-3 : -1 * salt[0].length-3)
+    // console.log(salt[1].length-3 > 0 ? salt[1].length-3 : -1 * salt[1].length-3)
+    // console.log(salt[2].length-3 > 0 ? salt[2].length-3 : -1 * salt[2].length-3)
+    // console.log(salt[3].length-3 > 0 ? salt[3].length-3 : -1 * salt[3].length-3)
+    res.end();
+})
+
 
 
 module.exports = app;

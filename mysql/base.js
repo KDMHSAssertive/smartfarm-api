@@ -37,7 +37,19 @@ function test() {
 
 // const Insert = (table, data:{columns: Object, values: Object}, done) => {
 const Insert = (table, data, done) => {
-    mysql_query("INSERT INTO " + table + " (" + data.columns.toString() + ") VALUES (" + data.values.toString() + ")")
+    let command = "INSERT INTO " + table + " (" + data.columns.toString() + ")";
+    // console.log(typeof data.values);
+    if (typeof data.values == "object") {
+        command += " VALUES (";
+        data.values.forEach(element => {
+            command += (util.isNumber(element) ? element : "'" + element + "'");
+            data.values.indexOf(element) != data.values.length-1 ? command += ", " : command += ");";
+        });
+    } else if (data.values != "" || !data.values) {
+        command += " VALUES (" + (util.isNumber(data.values) ? data.values : "'" + data.values + "'");
+    }
+    // console.log(command);
+    mysql_query(command)
     .then((res_sql) => {
         return done(null, res_sql);
     })
@@ -76,7 +88,7 @@ const Read = (table, output, filter, done) => {
     // console.log(filter);
     let command = "SELECT " + (!output ? "*" : output.toString()) + " FROM " + table;
     // console.log(command);
-    if (typeof filter.columns == "Array") {
+    if (typeof filter.columns == "object") {
         command += " WHERE ";
         filter.columns.forEach(element => {
             command += element + "=" + (util.isNumber(filter.values[filter.columns.indexOf(element)]) ? filter.values[filter.columns.indexOf(element)] : "'" + filter.values[filter.columns.indexOf(element)] + "'");

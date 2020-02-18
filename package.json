@@ -4,7 +4,8 @@
   "description": "KDMHS Assertive API",
   "main": "app.js",
   "scripts": {
-    "test": "nodemon app"
+    "test": "pm2 start app.js --watch --no-daemon --ignore-watch=\"node_modules/*\"",
+    "start": "pm2 start app.js"
   },
   "repository": {
     "type": "git",

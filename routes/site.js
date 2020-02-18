@@ -14,6 +14,8 @@ app.get('/login', (req, res) => {
     if (req.query.failed == "true") {
 
     }
+
+    res.end("HI! LOGIN");
 })
 
 app.post('/login',
