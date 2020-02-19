@@ -1,10 +1,10 @@
 let server_mode = "development";
 module.exports = {
     res_end: (res, code, err, err_position, cont, note) => {
+        res.status(code);
         if (note && server_mode == "development") {
             res.json({
-                status: code,
-                contents: cont,
+                data: cont,
                 error: {
                     position: err_position,
                     errors: err,
@@ -14,8 +14,7 @@ module.exports = {
         } else {
             if (server_mode == "development") {
                 res.json({
-                    status: code,
-                    contents: cont,
+                    data: cont,
                     error: {
                         position: err_position,
                         errors: err
@@ -23,8 +22,7 @@ module.exports = {
                 });
             } else if (server_mode == "service") {
                 res.json({
-                    status: code,
-                    contents: cont,
+                    data: cont,
                     errors: err
                 });
             }

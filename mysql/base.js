@@ -58,15 +58,40 @@ const Insert = (table, data, done) => {
     })
 }
 
-// const Update = (table, base:{columns: String, values: String}, alter: String, done) => {
+// const Update = (table, base:{columns: Object, values: Object}, alter:{columns: Object, values: Object}, done) => {
 const Update = (table, base, alter, done) => {
-    mysql_query("UPDATE " + table + " SET " + base.columns + " = " + alter + " WHERE " + base.columns + " = " + base.values)
+    let command = "UPDATE " + table;
+    // console.log(typeof data.values);
+
+    if (typeof alter.values == "object") {
+        command += " SET ";
+        alter.values.forEach(element => {
+            command += "'" + alter.columns[alter.values.indexOf(element)] + "' = " + (util.isNumber(element) ? element : "'" + element + "'");
+            alter.values.indexOf(element) != alter.values.length-1 ? command += ", " : command += "";
+        });
+    } else if (alter.values != "" || !alter.values) {
+        command += " SET " + "'" + alter.columns + "' = " + (util.isNumber(alter.values) ? alter.values : "'" + alter.values + "'");
+    }
+
+    if (typeof base.values == "object") {
+        command += " WHERE ";
+        base.values.forEach(element => {
+            command += "'" + base.columns[base.values.indexOf(element)] + "' = " + (util.isNumber(element) ? element : "'" + element + "'");
+            base.values.indexOf(element) != base.values.length-1 ? command += " AND " : command += ");";
+        });
+    } else if (base.values != "" || !base.values) {
+        command += " WHERE " + "'" + base.columns + "' = " + (util.isNumber(element) ? base.values : "'"  + base.values + "'");
+    }
+
+    console.log(command);
+    mysql_query(command)
     .then((res_sql) => {
         return done(null, res_sql);
     })
     .catch((e) => {
         return done(e);
     })
+    
 }
 // const Alter = (type: String, table: String, column: String, data: String, done) => {
 const Alter = (type, table, column, data, done) => {
