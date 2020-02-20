@@ -66,21 +66,21 @@ const Update = (table, base, alter, done) => {
     if (typeof alter.values == "object") {
         command += " SET ";
         alter.values.forEach(element => {
-            command += "'" + alter.columns[alter.values.indexOf(element)] + "' = " + (util.isNumber(element) ? element : "'" + element + "'");
+            command += "" + alter.columns[alter.values.indexOf(element)] + " = " + (util.isNumber(element) ? element : "'" + element + "'");
             alter.values.indexOf(element) != alter.values.length-1 ? command += ", " : command += "";
         });
     } else if (alter.values != "" || !alter.values) {
-        command += " SET " + "'" + alter.columns + "' = " + (util.isNumber(alter.values) ? alter.values : "'" + alter.values + "'");
+        command += " SET " + alter.columns + " = " + (util.isNumber(alter.values) ? alter.values : "'" + alter.values + "'");
     }
 
     if (typeof base.values == "object") {
         command += " WHERE ";
         base.values.forEach(element => {
-            command += "'" + base.columns[base.values.indexOf(element)] + "' = " + (util.isNumber(element) ? element : "'" + element + "'");
+            command += "" + base.columns[base.values.indexOf(element)] + " = " + (util.isNumber(element) ? element : "'" + element + "'");
             base.values.indexOf(element) != base.values.length-1 ? command += " AND " : command += ");";
         });
     } else if (base.values != "" || !base.values) {
-        command += " WHERE " + "'" + base.columns + "' = " + (util.isNumber(element) ? base.values : "'"  + base.values + "'");
+        command += " WHERE " + "" + base.columns + " = " + (util.isNumber(base.values) ? base.values : "'"  + base.values + "'");
     }
 
     console.log(command);

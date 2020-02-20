@@ -114,10 +114,12 @@ app.post('/register/redirectUri', (req, res, next) => {
         else if (!redirectUri || typeof redirectUri != "object") res_end(res, 400, "Cannot found or Unappropriate type: 'redirectUri'", "checkParams", undefined);
         else {
             authClient.findClient(clientId, (err, result) => {
+                console.log(err);
+                console.log(result);
                 if (err) res_end(res, 500, err, "findClient", undefined);
                 else if (result.length == 0) res_end(res, 500, "Cannot find clientId: " + clientId, "findClient", undefined);
                 else  {
-                    const extRedirectUri = result[0].redirectUri.split(",");
+                    const extRedirectUri = (result[0].redirectUri != undefined || result[0].redirectUri != null) ? result[0].redirectUri.split(",") : [];
                     let notFormat = [];
                     let incWildCard = [];
                     redirectUri.forEach(element => {
@@ -132,10 +134,10 @@ app.post('/register/redirectUri', (req, res, next) => {
                     const extRedirectUriToString = extRedirectUri.toString();
 
                     if (notFormat.length != 0) res_end(res, 400, "Unappropriate Uri format: 'http://' or 'https://' is necessity", "checkParams", undefined);
-                    else if (incWildCard.length != 0) res_end(res, 400, "Unappropriate Uri format: Wildcard Not Useable", "checkParams", undefined);
-                    else authClient.updateClient(clientId, "redirectUri", extRedirectUriToString, (err, res) => {
+                    else if (incWildCard.length != 0) res_end(res, 400, "Unappropriate Uri format: Wildcard Not Unavailable", "checkParams", undefined);
+                    else authClient.updateClient(clientId, "redirectUri", extRedirectUriToString, (err, result) => {
                         if (err) res_end(res, 500, err, "updateClient", undefined);
-                        else res_end(res, 500, undefined, undefined, extRedirectUriToString);
+                        else res_end(res, 200, undefined, undefined, extRedirectUri);
                     })
                 }
             })

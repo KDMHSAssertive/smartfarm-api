@@ -15,7 +15,7 @@ module.exports.saveClient = (clientId, clientSecret, userid, done) => {
 }
 
 module.exports.updateClient = (clientId, columns, values, done) => {
-    mysql.Update("client", {columns: "clientId", values, clientId}, {columns, values},  (error, result) => {
+    mysql.Update("client", {columns: "clientId", values: clientId}, {columns, values},  (error, result) => {
         if (error) return done(new Error("Error Update Client: " + error));
         return done(null, true);
     })
