@@ -41,14 +41,16 @@ const Insert = (table, data, done) => {
     // console.log(typeof data.values);
     if (typeof data.values == "object") {
         command += " VALUES (";
-        data.values.forEach(element => {
+        data.values.forEach((element, index) => {
             command += (util.isNumber(element) ? element : "'" + element + "'");
-            data.values.indexOf(element) != data.values.length-1 ? command += ", " : command += ");";
+            console.log(index);
+            index != data.values.length-1 ? command += ", " : command += ");";
         });
     } else if (data.values != "" || !data.values) {
+        // console.log("frd");
         command += " VALUES (" + (util.isNumber(data.values) ? data.values : "'" + data.values + "'");
     }
-    // console.log(command);
+    console.log(command);
     mysql_query(command)
     .then((res_sql) => {
         return done(null, res_sql);
@@ -65,9 +67,9 @@ const Update = (table, base, alter, done) => {
 
     if (typeof alter.values == "object") {
         command += " SET ";
-        alter.values.forEach(element => {
-            command += "" + alter.columns[alter.values.indexOf(element)] + " = " + (util.isNumber(element) ? element : "'" + element + "'");
-            alter.values.indexOf(element) != alter.values.length-1 ? command += ", " : command += "";
+        alter.values.forEach((element, index) => {
+            command += "" + alter.columns[index] + " = " + (util.isNumber(element) ? element : "'" + element + "'");
+            index != alter.values.length-1 ? command += ", " : command += "";
         });
     } else if (alter.values != "" || !alter.values) {
         command += " SET " + alter.columns + " = " + (util.isNumber(alter.values) ? alter.values : "'" + alter.values + "'");
@@ -75,9 +77,9 @@ const Update = (table, base, alter, done) => {
 
     if (typeof base.values == "object") {
         command += " WHERE ";
-        base.values.forEach(element => {
-            command += "" + base.columns[base.values.indexOf(element)] + " = " + (util.isNumber(element) ? element : "'" + element + "'");
-            base.values.indexOf(element) != base.values.length-1 ? command += " AND " : command += ");";
+        base.values.forEach((element, index) => {
+            command += "" + base.columns[index] + " = " + (util.isNumber(element) ? element : "'" + element + "'");
+            index != base.values.length-1 ? command += " AND " : command += ");";
         });
     } else if (base.values != "" || !base.values) {
         command += " WHERE " + "" + base.columns + " = " + (util.isNumber(base.values) ? base.values : "'"  + base.values + "'");

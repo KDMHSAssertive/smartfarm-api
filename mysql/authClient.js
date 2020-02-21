@@ -1,7 +1,7 @@
 const mysql = require("./base");
 
-module.exports.findClient = (clientId, done) => {
-    mysql.Read("client", null,  {columns: "clientId", values: clientId}, (error, codeInfo) => {
+module.exports.findClient = (clientInfo, done) => {
+    mysql.Read("client", null,  {columns: Object.keys(clientInfo), values: Object.values(clientInfo)}, (error, codeInfo) => {
         if (error) return done(error);
         return done(null, codeInfo);
     })

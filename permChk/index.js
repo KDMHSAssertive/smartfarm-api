@@ -1,4 +1,5 @@
 const { apiReq } = require("../mysql");
+const {res_end} = require("../routes/common");
 
 // Account Permission Settings
 
@@ -9,9 +10,10 @@ const { apiReq } = require("../mysql");
     // 3: User Account (cannot access all api, include open api)
 
 module.exports.isAuthable = {
-
     register: (userAccLevel) => {
+        // console.log(typeof userAccLevel);
         const possible = [0, 1, 2];
+        console.log(possible.includes(userAccLevel));
         if (possible.includes(userAccLevel)) return true;
         return false;
     },
@@ -29,5 +31,14 @@ module.exports.isAuthable = {
         }
         else if (possible.includes(userAccLevel)) return true;
         else return false;
+    }
+
+}
+
+module.exports.isAuthableMiddleware = {
+    register: (req, res, next) => {
+        console.log(req.userAccLevel);
+        if (!this.isAuthable.register(req.userAccLevel)) res_end(res, 403, "User not permission: " + req.session.passport.user, "check user", undefined);
+        else next();
     }
 }
