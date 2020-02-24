@@ -43,7 +43,7 @@ require('./auth');
 // router
 const routes = require('./routes');
 
-app.use('/OAuth', routes.oauth); // OAuth 2.0 Router
+app.use('/auth', routes.authorize); // Authorization Router
 app.use('/user', routes.user); // User account management Router
 app.use('/admin', routes.admin); // Admin account management Router
 app.use('/product', routes.product); // Product management Router
