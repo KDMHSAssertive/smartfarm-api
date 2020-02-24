@@ -15,8 +15,8 @@ module.exports.findReq = (clientId, scope, ip, done) => {
     else return done(null, false);
 }
 
-module.exports.logReq = (req, done) => {
-    mysql.Insert("apiRequest", {columns: ["requestType", "ip", "headers", "body", "url"], values: [req.method, req.ip, JSON.stringify(req.headers), JSON.stringify(req.body), req.url]}, (error, result) => {
+module.exports.logReq = (clientId, scope, ip, done) => {
+    mysql.Insert("apiRequest", {columns: ["clientId", "scope", "ip"], values: [clientId, scope, ip]}, (error, result) => {
         if (error) return done(new Error("Error Logging Request: " + error));
         return done(null, true);
     })

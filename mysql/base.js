@@ -43,14 +43,14 @@ const Insert = (table, data, done) => {
         command += " VALUES (";
         data.values.forEach((element, index) => {
             command += (util.isNumber(element) ? element : "'" + element + "'");
-            console.log(index);
+            // console.log(index);
             index != data.values.length-1 ? command += ", " : command += ");";
         });
     } else if (data.values != "" || !data.values) {
         // console.log("frd");
         command += " VALUES (" + (util.isNumber(data.values) ? data.values : "'" + data.values + "'");
     }
-    console.log(command);
+    // console.log(command);
     mysql_query(command)
     .then((res_sql) => {
         return done(null, res_sql);

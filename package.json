@@ -4,8 +4,9 @@
   "description": "KDMHS Assertive API",
   "main": "app.js",
   "scripts": {
-    "test": "pm2 start app.js --watch --no-daemon --ignore-watch=\"node_modules/*\"",
-    "start": "pm2 start app.js"
+    "test": "cross-env IP=\"127.0.0.1\" pm2 start app.js --name=\"smartfarm api\" --watch --no-daemon --ignore-watch=\"node_modules/*\"",
+    "pretest": "pm2 start app.js --name=\"smartfarm api\" --watch --no-daemon --ignore-watch=\"node_modules/*\"",
+    "start": "pm2 start app.js --name=\"smartfarm api\""
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,6 @@
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
-    "passport-oauth2-client-password": "^0.1.2",
     "path": "^0.12.7"
   },
   "devDependencies": {

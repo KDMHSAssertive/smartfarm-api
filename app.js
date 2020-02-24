@@ -43,14 +43,22 @@ require('./auth');
 // router
 const routes = require('./routes');
 
+const { apiReq } = require("./mysql");
+
+app.use("/", (req, res, next) => {
+    apiReq.logReq(req, (err, result) => {
+        if (err) console.error(err);
+        else next();
+    })
+})
+
 app.use('/auth', routes.authorize); // Authorization Router
 app.use('/user', routes.user); // User account management Router
 app.use('/admin', routes.admin); // Admin account management Router
 app.use('/product', routes.product); // Product management Router
 app.use('/payment', routes.payment); // Payment management Router
-app.use('/test', routes.test);
+app.use('/test', routes.test); // Not available while production mode
 app.use('/', routes.site);
-
 
 const port = process.env.PORT || 80;
 const ip = process.env.IP || "127.0.0.1";
@@ -62,6 +70,7 @@ app.listen(port, ip, function() {
         -----| SmartFarm API |-----
         ip: ` + ip + `
         port: ` + port + `
+        server mode: ` + (process.env.NODE_ENV || "development") + `
         -----| SmartFarm API |-----
     
     `)

@@ -2,6 +2,12 @@ const express = require("express");
 const crypto = require('crypto');
 const app = express.Router();
 
+app.use("/", (req, res, next) => {
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV == "production") res.end("NOT AVAILABLE: production mode");
+    else next();
+})
+
 app.get('/', (req, res) => {
     console.log("test");
     res.end("test");
