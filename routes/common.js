@@ -23,7 +23,8 @@ module.exports = {
                         position: err_position,
                         errors: err
                     }
-            });
+                });
+            }
         }
     }
 }

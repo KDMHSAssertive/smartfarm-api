@@ -45,9 +45,52 @@ const routes = require('./routes');
 
 const { apiReq } = require("./mysql");
 
+let warnIPArr = [];
+
 app.use("/", (req, res, next) => {
+    // apiReq.findReq(null, null, req.ip, (err, result) => {
+    //     if (err) console.error(err);
+    //     else if (result.length != 0) {
+    //         let array = result.pop();
+    //         const curtime = getTime();
+            
+    //         if (array.date == curtime) res.end("ERR: Blocked by server");
+    //         else {
+    //             next();
+    //         }
+    //     }
+    // })
+    apiReq.findReq(null, null, req.ip, true, (err, result) => {
+        if (result.length == 0) next();
+        else {
+            let lastAccess = result.pop();
+            let lastAccessTime = lastAccess.date.split(" ")[1];
+            let lastAccessS = lastAccessTime.split(":")[2];
+
+            apiReq.loadBlock(req.ip, (err, resultBlocked) => {
+                if (resultBlocked.length != 0) res.end("ERR: Blocked IP");
+            })
+            
+            if (lastAccessS == getTime().split(":")[2]) {
+                if (warnIPArr.includes(req.ip)) {
+                    apiReq.addBlock(req.ip, (err, resultBlock) => {
+                        if (err) console.error(err);
+                        else console.log(resultBlock);
+                    });
+                    res.end("ERR: Blocked IP");
+                } else {
+                    warnIPArr.push(req.ip);
+                    res.end("ERR: API Detected Unappropriate Access. Your ip will be block");
+                }
+            }
+            
+        }
+        
+    })
     apiReq.logReq(req, (err, result) => {
-        if (err) console.error(err);
+        if (err) {
+            console.error(err); res.end("ERR: Internal DB Error");
+        }
         else next();
     })
 })
