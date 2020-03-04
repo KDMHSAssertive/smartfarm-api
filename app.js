@@ -70,7 +70,7 @@ app.use("/", (req, res, next) => {
             apiReq.loadBlock(req.ip, (err, resultBlocked) => {
                 if (resultBlocked.length != 0) res.end("ERR: Blocked IP");
             })
-            
+
             if (lastAccessS == getTime().split(":")[2]) {
                 if (warnIPArr.includes(req.ip)) {
                     apiReq.addBlock(req.ip, (err, resultBlock) => {
@@ -82,7 +82,7 @@ app.use("/", (req, res, next) => {
                     warnIPArr.push(req.ip);
                     res.end("ERR: API Detected Unappropriate Access. Your ip will be block");
                 }
-            }
+            } else next();
             
         }
         
